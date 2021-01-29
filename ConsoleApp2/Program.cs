@@ -2,140 +2,163 @@
 
 namespace ConsoleApp2
 {
-    class Dinosaur
+    public class Dinosaur
     {
-        public int level_of_life { get; set; } = 20;
-        public int count { get; set; }
-        public bool big_jump { get; set; } = false;
-        public bool jump { get; set; } = false;
-        public bool jump_below { get; set; } = false;
-        public obstacle_on_road obstacle;
+        public int LevelOfLife { get; set; } = 20;
+        public int Count { get; set; }
+        public bool BigJumb { get; set; }
+        public bool Jump { get; set; }
+        public bool JumpBelow { get; set; }
+        public RoadObstacle Obstacle { get; set; }
     }
-   public enum obstacle_on_road { cactus, spade, big_cactus }
-     enum day_or_night {day, night}
-    class game
+    public enum RoadObstacle
     {
-        public day_or_night day_or_night { get; set; } = day_or_night.day;
-        public Dinosaur dinosaur;
-        public obstacle_on_road obstacle;
-        public void game_started(Dinosaur dinosaur ,obstacle_on_road obstacle)
+        Cactus,
+        Spade,
+        BigCactus
+
+    }
+    public enum DayOrNight
+    {
+        Day,
+        Night
+    }
+    public class Game
+    {
+        public DayOrNight DayOrNight { get; set; } = DayOrNight.Day;
+        public Dinosaur Dinosaur { get; set; }
+        public RoadObstacle Obstacle;
+        public void StartGame(Dinosaur dinosaur, RoadObstacle obstacle)
         {
-            this.dinosaur = dinosaur;
-            this.obstacle = obstacle;
-            if(obstacle==obstacle_on_road.cactus)
+            Dinosaur = dinosaur;
+            Obstacle = obstacle;
+
+            if (obstacle == RoadObstacle.Cactus)
             {
-                if(dinosaur.jump==true || dinosaur.big_jump==true)
+                if (dinosaur.Jump || dinosaur.BigJumb)
                 {
-                    dinosaur.count += 5;
-                    if (dinosaur.count >= 40)
+                    dinosaur.Count += 5;
+
+                    if (dinosaur.Count >= 40)
                     {
                         Console.WriteLine("YOU WIN");
                     }
                 }
-               else if(dinosaur.jump_below==true)
+                else if (dinosaur.JumpBelow == true)
                 {
-                    dinosaur.level_of_life -= 5;
-                    if(dinosaur.level_of_life<=0)
+                    dinosaur.LevelOfLife -= 5;
+                    if (dinosaur.LevelOfLife <= 0)
                     {
                         Console.WriteLine("YOU LOSE");
                     }
                 }
             }
-            if(obstacle==obstacle_on_road.big_cactus)
+            if (obstacle == RoadObstacle.BigCactus)
             {
-             if(dinosaur.jump==true || dinosaur.jump_below==true)
+                if (dinosaur.Jump || dinosaur.JumpBelow)
                 {
-                    dinosaur.level_of_life -= 5;
-                    if (dinosaur.level_of_life <= 0)
+                    dinosaur.LevelOfLife -= 5;
+
+                    if (dinosaur.LevelOfLife <= 0)
                     {
                         Console.WriteLine("YOU LOSE");
                     }
                 }
-             else if(dinosaur.big_jump==true)
+                else if (dinosaur.BigJumb)
                 {
-                    dinosaur.count += 5;
-                    if (dinosaur.count >= 40)
+                    dinosaur.Count += 5;
+
+                    if (dinosaur.Count >= 40)
                     {
                         Console.WriteLine("YOU WIN");
                     }
                 }
 
             }
-            if(obstacle==obstacle_on_road.spade)
+            if (obstacle == RoadObstacle.Spade)
             {
-                if(dinosaur.jump_below==true || dinosaur.big_jump==true)
+                if (dinosaur.JumpBelow || dinosaur.BigJumb)
                 {
-                    dinosaur.count += 5;
-                    if (dinosaur.count >= 40)
+                    dinosaur.Count += 5;
+
+                    if (dinosaur.Count >= 40)
                     {
                         Console.WriteLine("YOU WIN");
                     }
                 }
                 else
                 {
-                    dinosaur.level_of_life -= 5;
-                    if (dinosaur.level_of_life <= 0)
+                    dinosaur.LevelOfLife -= 5;
+
+                    if (dinosaur.LevelOfLife <= 0)
                     {
                         Console.WriteLine("YOU LOSE");
                     }
                 }
             }
-            if(dinosaur.count%30==0 || dinosaur.count % 35 == 0 || dinosaur.count % 40 == 0 || dinosaur.count % 45 == 0 || dinosaur.count % 50 == 0 || dinosaur.count % 55 == 0 || dinosaur.count % 60 == 0 )
+            if (dinosaur.Count % 30 == 0 || dinosaur.Count % 35 == 0 || dinosaur.Count % 40 == 0 || dinosaur.Count % 45 == 0 || dinosaur.Count % 50 == 0 || dinosaur.Count % 55 == 0 || dinosaur.Count % 60 == 0)
             {
-                day_or_night = day_or_night.night;
+                DayOrNight = DayOrNight.Night;
             }
             else
             {
-                day_or_night = day_or_night.day;
+                DayOrNight = DayOrNight.Day;
             }
-            
         }
-
     }
     class Program
     {
         static void Main(string[] args)
         {
-           
-            string jump = "jump";
-            string big_jump = "big_jump";
-            string jump_below = "jump_below";
+            StartGame();
+        }
+
+        static void StartGame()
+        {
+            const string jump = "jump";
+            const string bigJumb = "bigJump";
+            const string jumpBelow = "jumpBelow";
             string decision;
-           
+
             Dinosaur dinosaur = new Dinosaur();
-            game game = new game();
+            Game game = new Game();
             Random rand = new Random();
-        gamestarted:
+
             int number = rand.Next(0, 3);
-            var k = (obstacle_on_road)number;
-            Console.WriteLine((obstacle_on_road)number+" "+"is coming");
+
+            var k = (RoadObstacle)number;
+
+            Console.WriteLine($"{(RoadObstacle)number} is coming");
+
             decision = Console.ReadLine();
-            if(decision==jump)
+
+            if (decision == jump)
             {
-                dinosaur.jump = true;
+                dinosaur.Jump = true;
             }
-            if (decision == big_jump)
+            else if (decision == bigJumb)
             {
-                dinosaur.big_jump = true;
+                dinosaur.BigJumb = true;
             }
-            if (decision == jump_below)
+            else if (decision == jumpBelow)
             {
-                dinosaur.jump_below = true;
+                dinosaur.JumpBelow = true;
             }
-            game.game_started(dinosaur, k);
-            dinosaur.jump = false;
-            dinosaur.jump_below = false;
-            dinosaur.big_jump = false;
-            
-            if (dinosaur.level_of_life == 0 )
+
+            game.StartGame(dinosaur, k);
+
+            dinosaur.Jump = false;
+            dinosaur.JumpBelow = false;
+            dinosaur.BigJumb = false;
+
+            if (dinosaur.LevelOfLife == 0)
             {
-                Console.WriteLine("game ended, " + "your score is +{ 0} ", dinosaur.count);
+                Console.WriteLine($"game ended, your score is + {dinosaur.Count}");
             }
             else
             {
-                goto gamestarted;
+                StartGame();
             }
-            
         }
     }
 }
