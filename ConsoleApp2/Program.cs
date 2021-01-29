@@ -9,7 +9,6 @@ namespace ConsoleApp2
         public bool BigJumb { get; set; }
         public bool Jump { get; set; }
         public bool JumpBelow { get; set; }
-        public RoadObstacle Obstacle { get; set; }
     }
     public enum RoadObstacle
     {
